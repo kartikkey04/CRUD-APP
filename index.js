@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 
-
+// Get all products
 app.get('/api/products', async (req,res)=>{
     try{
 
@@ -19,6 +19,8 @@ app.get('/api/products', async (req,res)=>{
     }
 })
 
+// Get product using ID
+
 app.get('/api/product/:id',async (req,res)=>{
     try{
         const {id} = req.params;
@@ -29,6 +31,31 @@ app.get('/api/product/:id',async (req,res)=>{
         res.status(500).json({"message":err.message});
     }
 })
+
+// update a product
+
+app.put('/api/product/:id',async(req,res) => {
+    try{
+
+        const {id} = req.params;
+
+        const product = await Product.findByIdAndUpdate(id,req.body);
+
+        if(!product){
+            return res.status(404).json({message:"Product not found"});
+        }
+
+        const updatedProduct = await Product.findById(id);
+
+        res.status(200).json(updatedProduct);
+
+    }catch(err){
+        res.status(500).json({"message":err.message});
+    }
+})
+
+
+// Add product
 
 app.post('/api/products', async (req,res)=>{
     try{
