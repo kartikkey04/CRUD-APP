@@ -83,7 +83,7 @@ mongoose
   )
   .then(() => {
     console.log("DB connected");
-    app.listen(3000, () => {
+    app.listen(9000, () => {
       console.log("server is running.....");
     });
   })
